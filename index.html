@@ -3,59 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firebase Google Login</title>
+    <title>NEURAL_LINK_v1.0</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: #1e1e1e; padding: 2.5rem; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); width: 100%; max-width: 380px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #2a2a2a; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; margin-top: 10px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        #loginBtn { background-color: #f5820d; color: white; }
-        #googleBtn { background-color: #ffffff; color: #757575; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        #logoutBtn { background-color: #e74c3c; color: white; margin-top: 20px; }
+        :root {
+            --neon-pink: #ff0055;
+            --neon-cyan: #00f2ff;
+            --dark-bg: #0d0d0d;
+            --panel-bg: #1a1a1a;
+        }
+
+        body { 
+            background-color: var(--dark-bg);
+            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            /* Scanline effect */
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+        }
+
+        .card { 
+            background: var(--panel-bg);
+            padding: 30px;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan), inset 0 0 5px var(--neon-cyan);
+            width: 350px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Cyberpunk Corner accents */
+        .card::before {
+            content: "SECURE_CONNECTION";
+            position: absolute;
+            top: -25px;
+            left: 0;
+            font-size: 10px;
+            color: var(--neon-cyan);
+        }
+
+        h2 { 
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink);
+            margin-bottom: 30px;
+        }
+
+        input { 
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #000;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        button { 
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: transparent;
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        #googleBtn {
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            margin-top: 20px;
+        }
+
+        #googleBtn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-cyan);
+        }
+
         .hidden { display: none; }
-        .divider { margin: 20px 0; border-top: 1px solid #444; position: relative; }
-        .divider span { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #1e1e1e; padding: 0 10px; color: #777; font-size: 0.8rem; }
+        #status { font-size: 10px; margin-top: 15px; color: #555; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <h2>Welcome</h2>
+        <h2>ACCESS_LOG</h2>
         
         <div id="authFields">
-            <input type="email" id="email" placeholder="Email Address">
-            <input type="password" id="password" placeholder="Password">
-            <button id="loginBtn">Log In</button>
-            
-            <div class="divider"><span>OR</span></div>
-            
-            <button id="googleBtn">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
-                Sign in with Google
-            </button>
+            <input type="email" id="email" placeholder="USER_ID@NET.MAIL">
+            <input type="password" id="password" placeholder="PASS_CODE">
+            <button id="loginBtn">Initialize_Auth</button>
+            <button id="googleBtn">Google_Sync</button>
         </div>
 
         <div id="userProfile" class="hidden">
-            <p>Welcome back,</p>
-            <p><strong id="userEmailDisplay"></strong></p>
-            <button id="logoutBtn">Log Out</button>
+            <p style="color: var(--neon-cyan);">CONNECTION_ESTABLISHED</p>
+            <p>ID: <span id="userEmailDisplay" style="color: var(--neon-pink);"></span></p>
+            <button id="logoutBtn" style="border-color: #fff; color: #fff;">Terminate_Link</button>
         </div>
         
-        <p id="status" style="color: #ffcc00; font-size: 0.8rem; margin-top: 15px;"></p>
+        <p id="status">SYS_READY...</p>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { 
-            getAuth, 
-            signInWithEmailAndPassword, 
-            signInWithPopup, 
-            GoogleAuthProvider, 
-            onAuthStateChanged, 
-            signOut 
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // CONFIG (Ensure this matches your Console exactly)
+        // Your existing config
         const firebaseConfig = {
             apiKey: "AIzaSyDd8zrzECGZEw_dhc2IYqCWCHj8-0sBFL8",
             authDomain: "randomhtmlgrfn.firebaseapp.com",
@@ -67,43 +138,33 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const provider = new GoogleAuthProvider(); // Google Provider instance
+        const provider = new GoogleAuthProvider();
 
         const statusMsg = document.getElementById('status');
 
-        // Google Login Logic
         document.getElementById('googleBtn').addEventListener('click', () => {
-            signInWithPopup(auth, provider)
-                .then((result) => {
-                    console.log("Google Login Success:", result.user);
-                })
-                .catch((error) => {
-                    statusMsg.innerText = error.message;
-                });
+            statusMsg.innerText = "SYNCING...";
+            signInWithPopup(auth, provider).catch(e => statusMsg.innerText = "ERROR: " + e.code);
         });
 
-        // Email Login Logic
         document.getElementById('loginBtn').addEventListener('click', () => {
             const email = document.getElementById('email').value;
             const pass = document.getElementById('password').value;
-            signInWithEmailAndPassword(auth, email, pass)
-                .catch((err) => statusMsg.innerText = err.message);
+            signInWithEmailAndPassword(auth, email, pass).catch(e => statusMsg.innerText = "AUTH_FAILED");
         });
 
-        // Logout
         document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
 
-        // Auth State Observer
         onAuthStateChanged(auth, (user) => {
-            const authFields = document.getElementById('authFields');
-            const userProfile = document.getElementById('userProfile');
             if (user) {
-                authFields.classList.add('hidden');
-                userProfile.classList.remove('hidden');
-                document.getElementById('userEmailDisplay').innerText = user.email || user.displayName;
+                document.getElementById('authFields').classList.add('hidden');
+                document.getElementById('userProfile').classList.remove('hidden');
+                document.getElementById('userEmailDisplay').innerText = user.email;
+                statusMsg.innerText = "LINK_ACTIVE";
             } else {
-                authFields.classList.remove('hidden');
-                userProfile.classList.add('hidden');
+                document.getElementById('authFields').classList.remove('hidden');
+                document.getElementById('userProfile').classList.add('hidden');
+                statusMsg.innerText = "SYS_READY...";
             }
         });
     </script>
